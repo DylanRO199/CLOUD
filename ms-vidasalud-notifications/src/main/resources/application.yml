@@ -1,0 +1,28 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: ms-vidasalud-notifications
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:vidasalud}
+    password: ${RABBITMQ_PASSWORD:vidasalud-local}
+    listener:
+      simple:
+        prefetch: 5
+vidasalud:
+  rabbit:
+    exchange: ${RABBITMQ_EXCHANGE:vidasalud.appointments.exchange}
+    queue: ${RABBITMQ_QUEUE:vidasalud.notifications.queue}
+    status-queue: ${RABBITMQ_STATUS_QUEUE:vidasalud.status.queue}
+    dlx: ${RABBITMQ_DLX:vidasalud.appointments.dlx}
+    dlq: ${RABBITMQ_DLQ:vidasalud.notifications.dlq}
+    dead-routing-key: ${RABBITMQ_DEAD_KEY:appointment.failed}
+    created-key: ${RABBITMQ_CREATED_KEY:appointment.created}
+    status-key: ${RABBITMQ_STATUS_KEY:appointment.status.changed}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
